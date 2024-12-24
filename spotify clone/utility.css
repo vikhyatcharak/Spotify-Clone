@@ -1,0 +1,23 @@
+.border{
+    border: 2px solid red;
+    margin: 3px;
+}
+
+.flex{
+    display: flex;
+}
+.jc{
+    justify-content: center;
+}
+.ic{
+    align-items: center;
+}
+.column{
+    flex-direction: column;
+}
+.gray{
+    background-color: rgb(46, 41, 41);
+}
+.grid{
+    display: grid;
+}

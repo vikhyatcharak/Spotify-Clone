@@ -1,0 +1,222 @@
+@media (max-width:1200px) {
+    .left{
+        width: 333px;
+        margin: 0px 8px;
+        position: absolute;
+        z-index: 5;
+        left:-110%;
+        transition:all 0.5s ease-out ;
+        height: 96vh;
+    }
+    .right{
+        width: 100vw;
+        height: 96vh;
+    }
+    .playBar{
+        height: 64px;
+        width: 97.5%;
+    }
+    .songInfo , .songTime{
+        font-size: 18px;
+    }
+
+
+    .home{
+        padding: 5px 5px 12px 6px;
+        height: 50px;
+    }
+    .home img {
+        width: 30px;
+    }
+    .home>img{
+        width: 33px;
+    }
+
+    .searchBar > button {
+        padding: 6px 6px 4px 6px;
+    }
+    .searchBar > button:hover {
+        padding: 7px 7px 5px 7px;
+    }
+    .search {
+        padding: 8px;
+        border-radius: 80px;
+        gap: 8px;
+    }
+    .search input {
+        width: 300px;
+        font-size: 18px;
+    }    
+
+    .buttons {
+        gap: 8px;
+    }
+    .buttons button {
+        padding: 18px 20px;
+        font-size: 19px;
+    }
+    .buttons button:hover {
+        padding: 19px 21px;
+        font-size: 20px;
+    }
+
+    .ham{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .hamburger{
+        display: block;
+
+    }
+    .hamburger img{
+        width: 25px;
+    }
+    .hamburger img:hover{
+        width: 25px;
+        cursor: pointer;
+        opacity: 1;
+    }
+    .section .cardContainer{
+        max-height: 40vh;
+    }
+}
+
+@media (max-width:705px){
+    .songInfo , .songTime{
+        font-size: 14px;
+    }
+    .home{
+        padding: 5px 5px 12px 6px;
+        height: 50px;
+    }
+    .home img {
+        width: 20px;
+    }
+    .home>img{
+        width: 22px;
+    }
+
+    .searchBar > button {
+        padding: 3px 3px 2px 3px;
+    }
+    .searchBar > button:hover {
+        padding: 4px 4px 3px 4px;
+    }
+    .search {
+        padding: 6px;
+        border-radius: 80px;
+        gap: 6px;
+    }
+    .search input {
+        width: 250px;
+        font-size: 14px;
+    }    
+
+    .buttons {
+        gap: 6px;
+    }
+    .buttons button {
+        padding: 14px 18px;
+        font-size: 14px;
+    }
+    .buttons button:hover {
+        padding: 15px 19px;
+        font-size: 15px;
+    }
+
+
+    .playBar{
+        margin:0px;
+    }
+    .right .section h1{
+        font-size: 26px;
+    }
+    .section .card {
+        width: 145px;
+    }
+    .section .card .green-button {
+        top: 118px;
+        right: 9px;
+        padding: 8px;
+    }
+    .section .card h2{
+        font-size: 22px;
+    }
+    .section .card p{
+        font-size: 14px;
+    }
+    .playBar{
+        height: auto;
+    }
+    .playBar .above{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 10px;
+    }
+    .playBar .above .songInfo{
+        width: auto;
+    }
+    .playBar .above .timevol{
+        width: auto;
+        align-items: center;
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width:580px){
+    .home{
+        overflow-x: scroll;
+        padding: 5px 5px 12px 6px;
+        height: 40px;
+    }
+    .home img {
+        width: 16px;
+    }
+    .home>img{
+        width: 18px;
+    }
+
+    .searchBar > button {
+        padding: 3px 3px 2px 3px;
+    }
+    .searchBar > button:hover {
+        padding: 4px 4px 3px 4px;
+    }
+    .search {
+        padding: 4px;
+        border-radius: 80px;
+        gap: 6px;
+    }
+    .search input {
+        width: 180px;
+        font-size: 14px;
+    }    
+
+    .buttons {
+        gap: 4px;
+    }
+    .buttons button {
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+    .buttons button:hover {
+        padding: 11px 15px;
+        font-size: 13px;
+    }
+
+    .right .section h1{
+        font-size: 24px;
+    }
+    .section .card h2{
+        font-size: 20px;
+    }
+    .section .card p{
+        font-size: 12px;
+    }
+
+}
+
