@@ -147,6 +147,10 @@ async function main(){
 
         //event listener for change in circle as song proceeds
         document.querySelector(".circle").style.left=currSong.currentTime/currSong.duration*100 + "%"
+
+        if(formatTime(currSong.currentTime)==formatTime(currSong.duration)){
+            playNextSong()
+        }    
     })
     
     //event listener for seekbar
