@@ -2,43 +2,66 @@ let currSong = new Audio();
 let currFolder = "og playlist";
 
 async function getFolders() {
-    let a = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/`);
-    let response = await a.json();
-    let folderSection = document.querySelector(".container").querySelector(".right").querySelector(".section").querySelector(".cardContainer");
-    
-    response.forEach(async (folderData) => {
-        if (folderData.type === 'dir') {
-            let folderName = folderData.name;
-            let b = await fetch(`https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/info.json`);
-            let r = await b.json();
-            
-            folderSection.innerHTML += `<div class="card">
-                                            <button class="green-button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="black">
-                                                    <path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
-                                                </svg>
-                                            </button>
-                                            <img src="https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/cover.jpg" alt="${folderName}" style="filter: invert(0);">
-                                            <h2>${r.title}</h2>
-                                            <p>${r.description}</p>
-                                        </div>`;
+    try {
+        let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/`);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch: ${response.statusText} (Status code: ${response.status})`);
         }
-    });
+        
+        let data = await response.json();
+        let folderSection = document.querySelector(".container").querySelector(".right").querySelector(".section").querySelector(".cardContainer");
+
+        data.forEach(async (folderData) => {
+            if (folderData.type === 'dir') {
+                let folderName = folderData.name;
+                let b = await fetch(`https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/info.json`);
+                
+                if (!b.ok) {
+                    throw new Error(`Failed to fetch info.json for folder ${folderName}`);
+                }
+                
+                let r = await b.json();
+                
+                folderSection.innerHTML += `<div class="card">
+                                                <button class="green-button">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="black">
+                                                        <path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
+                                                    </svg>
+                                                </button>
+                                                <img src="https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/cover.jpg" alt="${folderName}" style="filter: invert(0);">
+                                                <h2>${r.title}</h2>
+                                                <p>${r.description}</p>
+                                            </div>`;
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching folders:", error);
+    }
 }
 
 async function getSongs(folder) {
-    currFolder = folder;
-    let a = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}`);
-    let response = await a.json();
-    let songs = [];
-
-    response.forEach(item => {
-        if (item.name.endsWith(".mp3")) {
-            songs.push(item.name.split(".mp3")[0]); // Push song name without .mp3
+    try {
+        let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folder}`);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch songs: ${response.statusText} (Status code: ${response.status})`);
         }
-    });
+        
+        let data = await response.json();
+        let songs = [];
 
-    return songs;
+        data.forEach(item => {
+            if (item.name.endsWith(".mp3")) {
+                songs.push(item.name.split(".mp3")[0]); // Push song name without .mp3
+            }
+        });
+
+        return songs;
+    } catch (error) {
+        console.error("Error fetching songs:", error);
+        return [];
+    }
 }
 
 function formatTime(seconds) {
@@ -72,7 +95,7 @@ async function updateSongs(folder) {
     content.innerHTML = "";
 
     songs.forEach(song => {
-        content.innerHTML += `<div class="card ">
+        content.innerHTML += `<div class="card">
                                 <div class="flex jc">
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#ffffff" fill="none">
@@ -137,7 +160,6 @@ async function main() {
     currSong.addEventListener("timeupdate", () => {
         document.querySelector(".above").querySelector(".songTime").innerHTML = `${formatTime(currSong.currentTime)}/${formatTime(currSong.duration || 0)}`;
 
-        // Event listener for change in circle as song proceeds
         document.querySelector(".circle").style.left = currSong.currentTime / currSong.duration * 100 + "%";
 
         if (formatTime(currSong.currentTime) == formatTime(currSong.duration)) {
@@ -181,30 +203,26 @@ async function main() {
     volRange.addEventListener("change", (e) => {
         if (currSong.muted) {
             currSong.muted = false;
-            document.querySelector(".timevol").querySelector(".vol").firstElementChild.src = "material/vol.svg";
+            muteButton.src = "material/volume.svg";
         }
-        currSong.volume = parseFloat(e.target.value / 100);
+        currSong.volume = e.target.value / 100;
     });
-    document.querySelector(".timevol").querySelector(".vol").firstElementChild.addEventListener("click", e => {
-        if (!currSong.muted) {
-            currSong.muted = true;
-            volRange.value = 0;
-            e.target.src = "material/mute.svg";
-        } else {
+
+    muteButton.addEventListener("click", () => {
+        if (currSong.muted) {
             currSong.muted = false;
-            currSong.volume = 0.2;
-            volRange.value = 20;
-            e.target.src = "material/vol.svg";
+            muteButton.src = "material/volume.svg";
+        } else {
+            currSong.muted = true;
+            muteButton.src = "material/mute.svg";
         }
     });
 
-    // Event listener for green button on playlists
-    let folderSection = document.querySelector(".container").querySelector(".right").querySelector(".section").querySelector(".cardContainer");
-    let folderArr = folderSection.getElementsByClassName("card");
-    Array.from(folderArr).forEach(e => {
-        e.querySelector(".green-button").addEventListener("click", async () => {
-            currFolder = e.querySelector("h2").innerHTML.trim();
-            await updateSongs(currFolder);
+    // Event listener for folder navigation
+    document.querySelectorAll(".card").forEach(card => {
+        card.querySelector("button").addEventListener("click", () => {
+            currFolder = card.querySelector("h2").innerHTML;
+            updateSongs(currFolder);
         });
     });
 }
