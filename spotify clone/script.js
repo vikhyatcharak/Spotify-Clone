@@ -150,10 +150,10 @@ async function main() {
     document.getElementById("pl").addEventListener("click", () => {
         if (currSong.paused) {
             currSong.play();
-            pl.src = "material/pause.svg";
+            document.getElementById("pl").src = "material/pause.svg";
         } else {
             currSong.pause();
-            pl.src = "material/play.svg";
+            document.getElementById("pl").src = "material/play.svg";
         }
     })
 
@@ -195,14 +195,11 @@ async function main() {
     })
 
     // Event listeners for previous and next buttons
-    let p = document.getElementById("p");
-    let n = document.getElementById("n");
-
-    p.addEventListener("click", () => {
+    document.getElementById("p").addEventListener("click", () => {
         playPreviousSong();
     })
 
-    n.addEventListener("click", () => {
+    document.getElementById("n").addEventListener("click", () => {
         playNextSong();
     })
 
@@ -219,12 +216,12 @@ async function main() {
     document.querySelector(".timevol").querySelector(".vol").firstElementChild.addEventListener("click",e=>{
         if(!currSong.muted){
             currSong.muted=true;
-            volRange.value=0
+            document.getElementById("volRange").value=0
             e.target.src="material/mute.svg"
         }else{
             currSong.muted=false
             currSong.volume=0.2
-            volRange.value=20
+            document.getElementById("volRange").value=20
             e.target.src="material/vol.svg"
         }
     })
