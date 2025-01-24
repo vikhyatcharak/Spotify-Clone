@@ -118,7 +118,7 @@ async function updateSongs(folder) {
 }
 
 function playPreviousSong() {
-    console.log(currSong);
+    console.log(currSong)
     const src = currSong.src; 
     const songName = src.split(`${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
     const prevSong = getCircularElement(songs, songs.indexOf(songName) - 1); 
@@ -126,6 +126,7 @@ function playPreviousSong() {
 }
 
 function playNextSong() {
+    console.log(currSong)
     const src = currSong.src; 
     const songName = src.split(`${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
     const nextSong = getCircularElement(songs, songs.indexOf(songName) + 1); 
@@ -150,10 +151,10 @@ async function main() {
     document.getElementById("pl").addEventListener("click", () => {
         if (currSong.paused) {
             currSong.play();
-            document.getElementById("pl").src = "material/pause.svg";
+            pl.src = "material/pause.svg";
         } else {
             currSong.pause();
-            document.getElementById("pl").src = "material/play.svg";
+            pl.src = "material/play.svg";
         }
     });
 
@@ -161,15 +162,18 @@ async function main() {
     currSong.addEventListener("timeupdate", () => {
         document.querySelector(".above").querySelector(".songTime").innerHTML = `${formatTime(currSong.currentTime)}/${formatTime(currSong.duration || 0)}`;
 
+        //event listener for change in circle as song proceeds
         document.querySelector(".circle").style.left = (currSong.currentTime / currSong.duration * 100) + "%";
 
-        if (formatTime(currSong.currentTime) === formatTime(currSong.duration)) {
+        if (formatTime(currSong.currentTime) == formatTime(currSong.duration)) {
             playNextSong();
         }
     });
 
     // Event listener for seekbar
     document.querySelector(".seekbar").addEventListener("click", e => {
+        // console.log(e.target.getBoundingClientRect(),e.offsetX) //getBoundingClientRect() tells where height,width,x,y of the element // offsetX found from console.log(e)
+        
         let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
         document.querySelector(".circle").style.left = percent + "%";
         currSong.currentTime = (percent * currSong.duration) / 100;
@@ -178,11 +182,11 @@ async function main() {
     // Event listener for hamburger img
     document.querySelector(".hamburger img").addEventListener("click", (e) => {
         const leftElement = document.querySelector(".left");
-        const parentWidth = leftElement.offsetParent.offsetWidth;
-        const currentLeftPx = window.getComputedStyle(leftElement).left;
-        const currentLeft = Math.round((parseFloat(currentLeftPx) / parentWidth) * 100);
+        const parentWidth = leftElement.offsetParent.offsetWidth; // Get the parent's width
+        const currentLeftPx = window.getComputedStyle(leftElement).left; // Get `left` in px
+        const currentLeft = Math.round((parseFloat(currentLeftPx) / parentWidth) * 100); // Convert px to %, rounded to nearest integer
 
-        if (currentLeft === -110) {
+        if (currentLeft == -110) {
             leftElement.style.left = "0%";
             e.target.src = "material/cross.svg";
         } else {
@@ -192,41 +196,47 @@ async function main() {
     });
 
     // Event listeners for previous and next buttons
-    document.querySelector(".previous-button").addEventListener("click", () => {
+    p.addEventListener("click", () => {
         playPreviousSong();
     });
 
-    document.querySelector(".next-button").addEventListener("click", () => {
+    n.addEventListener("click", () => {
         playNextSong();
     });
 
-    // Event listener for volume range and mute
-    document.querySelector(".volume-range").addEventListener("change", (e) => {
+    // Event listener for volume range and to mute
+    volRange.addEventListener("change", (e) => {
         if (currSong.muted) {
             currSong.muted = false;
-            document.querySelector(".mute-button").src = "material/volume.svg";
+             document.querySelector(".timevol").querySelector(".vol").firstElementChild.src="material/vol.svg"
         }
-        currSong.volume = e.target.value / 100;
+        currSong.volume = parseFloat(e.target.value/100)
     });
 
     // Event listener for mute button
-    document.querySelector(".mute-button").addEventListener("click", () => {
-        if (currSong.muted) {
-            currSong.muted = false;
-            document.querySelector(".mute-button").src = "material/volume.svg";
-        } else {
-            currSong.muted = true;
-            document.querySelector(".mute-button").src = "material/mute.svg";
+    document.querySelector(".timevol").querySelector(".vol").firstElementChild.addEventListener("click",e=>{
+        if(!currSong.muted){
+            currSong.muted=true;
+            volRange.value=0
+            e.target.src="material/mute.svg"
+        }else{
+            currSong.muted=false
+            currSong.volume=0.2
+            volRange.value=20
+            e.target.src="material/vol.svg"
         }
     });
 
-    // Event listener for folder navigation
-    document.querySelectorAll(".card").forEach(card => {
-        card.querySelector("button").addEventListener("click", () => {
-            currFolder = card.querySelector("h2").innerHTML;
-            updateSongs(currFolder);
-        });
-    });
+    //event listener for green button on playlists
+    let folderSection=document.querySelector(".container").querySelector(".right").querySelector(".section").querySelector(".cardContainer")
+    let folderArr=folderSection.getElementsByClassName("card")
+    Array.from(folderArr).forEach(e=>{
+        e.querySelector(".green-button").addEventListener("click", async ()=>{
+            // console.log(e.querySelector("h2").innerHTML)
+            currFolder=e.querySelector("h2").innerHTML.trim()
+            await updateSongs(currFolder)
+        })
+    })
 }
 
 main();
