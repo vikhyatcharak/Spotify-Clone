@@ -195,6 +195,9 @@ async function main() {
     })
 
     // Event listeners for previous and next buttons
+    let p = document.getElementById("p");
+    let n = document.getElementById("n");
+
     p.addEventListener("click", () => {
         playPreviousSong();
     })
