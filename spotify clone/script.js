@@ -114,9 +114,8 @@ async function updateSongs(folder) {
                                     <img src="material/play.svg" alt="playS" style="filter: invert(0); opacity: 1;">
                                 </div>
                             </div>`;
-    });
-}
-
+    }
+    
 function playPreviousSong() {
     console.log(currSong)
     const src = currSong.src; 
@@ -145,7 +144,7 @@ async function main() {
             playMusic(songName);
             document.getElementById("pl").src = "material/pause.svg";
         }
-    });
+    })
 
     // Event listener for Play/Pause button in seekbar
     document.getElementById("pl").addEventListener("click", () => {
@@ -156,7 +155,7 @@ async function main() {
             currSong.pause();
             pl.src = "material/play.svg";
         }
-    });
+    })
 
     // Event listener for currSong time update in playBar
     currSong.addEventListener("timeupdate", () => {
@@ -168,7 +167,7 @@ async function main() {
         if (formatTime(currSong.currentTime) == formatTime(currSong.duration)) {
             playNextSong();
         }
-    });
+    })
 
     // Event listener for seekbar
     document.querySelector(".seekbar").addEventListener("click", e => {
@@ -177,7 +176,7 @@ async function main() {
         let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
         document.querySelector(".circle").style.left = percent + "%";
         currSong.currentTime = (percent * currSong.duration) / 100;
-    });
+    })
 
     // Event listener for hamburger img
     document.querySelector(".hamburger img").addEventListener("click", (e) => {
@@ -193,16 +192,16 @@ async function main() {
             leftElement.style.left = "-110%";
             e.target.src = "material/hambur.svg";
         }
-    });
+    })
 
     // Event listeners for previous and next buttons
     p.addEventListener("click", () => {
         playPreviousSong();
-    });
+    })
 
     n.addEventListener("click", () => {
         playNextSong();
-    });
+    })
 
     // Event listener for volume range and to mute
     volRange.addEventListener("change", (e) => {
@@ -211,7 +210,7 @@ async function main() {
              document.querySelector(".timevol").querySelector(".vol").firstElementChild.src="material/vol.svg"
         }
         currSong.volume = parseFloat(e.target.value/100)
-    });
+    })
 
     // Event listener for mute button
     document.querySelector(".timevol").querySelector(".vol").firstElementChild.addEventListener("click",e=>{
@@ -225,7 +224,7 @@ async function main() {
             volRange.value=20
             e.target.src="material/vol.svg"
         }
-    });
+    })
 
     //event listener for green button on playlists
     let folderSection=document.querySelector(".container").querySelector(".right").querySelector(".section").querySelector(".cardContainer")
