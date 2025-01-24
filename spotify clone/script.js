@@ -209,6 +209,7 @@ async function main() {
         currSong.volume = e.target.value / 100;
     });
 
+    // Event listener for mute button
     document.querySelector(".mute-button").addEventListener("click", () => {
         if (currSong.muted) {
             currSong.muted = false;
