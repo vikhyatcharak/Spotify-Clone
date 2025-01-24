@@ -2,21 +2,9 @@ let currSong = new Audio();
 let currFolder = "og playlist";
 let songs = [];
 
-const token = "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";
-
-// Add Authorization header to your fetch requests
-const fetchWithAuth = async (url) => {
-    let response = await fetch(url, {
-        headers: {
-            'Authorization': `token ${token}`,
-        },
-    });
-    return response;
-};
-
 async function getFolders() {
     try {
-        let response = await fetchWithAuth(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/`);
+        let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch: ${response.statusText} (Status code: ${response.status})`);
@@ -28,14 +16,14 @@ async function getFolders() {
         for (let folderData of data) {
             if (folderData.type === 'dir') {
                 let folderName = folderData.name;
-                let getInfo = await fetchWithAuth(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folderName}/info.json`);
+                let getInfo = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folderName}/info.json`);
 
                 if (!getInfo.ok) {
                     throw new Error(`Failed to fetch info.json for folder ${folderName}`);
                 }
 
                 let r = await getInfo.json();
-                let coverImage = await fetchWithAuth(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folderName}/cover.jpg`);
+                let coverImage = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folderName}/cover.jpg`);
                 folderSection.innerHTML += `
                     <div class="card">
                         <button class="green-button">
@@ -57,7 +45,7 @@ async function getFolders() {
 
 async function getSongs(folder) {
     try {
-        let response = await fetchWithAuth(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folder}`);
+        let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folder}`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch songs: ${response.statusText} (Status code: ${response.status})`);
