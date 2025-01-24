@@ -2,7 +2,7 @@ let currSong = new Audio();
 let currFolder = "og playlist";
 let songs = [];
 
-const token = "Spotify_Clone"; // Replace with your GitHub token
+const token = "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";
 
 // Add Authorization header to your fetch requests
 const fetchWithAuth = async (url) => {
