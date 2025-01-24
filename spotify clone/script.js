@@ -119,18 +119,17 @@ async function updateSongs(folder) {
 }
 
 function playPreviousSong() {
-    const src = currSong.getAttribute("src"); 
-    const songName = src.split(`${currFolder}/`)[1].split(".mp3")[0]; 
+    const songName = currSong.src.split(`${currFolder}/`)[1].split(".mp3")[0]; 
     const prevSong = getCircularElement(songs, songs.indexOf(songName) - 1); 
     playMusic(prevSong);
 }
 
 function playNextSong() {
-    const src = currSong.getAttribute("src"); 
-    const songName = src.split(`${currFolder}/`)[1].split(".mp3")[0]; 
+    const songName = currSong.src.split(`${currFolder}/`)[1].split(".mp3")[0]; 
     const nextSong = getCircularElement(songs, songs.indexOf(songName) + 1); 
     playMusic(nextSong);
 }
+
 
 async function main() {
     await getFolders();
