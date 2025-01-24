@@ -119,7 +119,6 @@ async function updateSongs(folder) {
 }
     
 function playPreviousSong() {
-    console.log(currSong)
     const src = currSong.src; 
     const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
     const prevSong = getCircularElement(songs, songs.indexOf(songName) - 1); 
@@ -127,7 +126,6 @@ function playPreviousSong() {
 }
 
 function playNextSong() {
-    console.log(currSong)
     const src = currSong.src; 
     const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
     const nextSong = getCircularElement(songs, songs.indexOf(songName) + 1); 
@@ -235,7 +233,6 @@ async function main() {
         e.querySelector(".green-button").addEventListener("click", async ()=>{
             // console.log(e.querySelector("h2").innerHTML)
             currFolder=e.querySelector("h2").innerHTML
-            console.log(currFolder)
             await updateSongs(currFolder)
         })
     })
