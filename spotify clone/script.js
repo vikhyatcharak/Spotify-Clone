@@ -1,6 +1,5 @@
 let currSong = new Audio();
 let currFolder = "og playlist";
-let songs = [];
 
 async function getFolders() {
     try {
@@ -50,15 +49,15 @@ async function getSongs(folder) {
         }
         
         let data = await response.json();
-        let songList = [];
+        let songs = [];
 
         data.forEach(item => {
             if (item.name.endsWith(".mp3")) {
-                songList.push(item.name.split(".mp3")[0]); // Push song name without .mp3
+                songs.push(item.name.split(".mp3")[0]); // Push song name without .mp3
             }
         });
 
-        return songList;
+        return songs;
     } catch (error) {
         console.error("Error fetching songs:", error);
         return [];
@@ -79,7 +78,7 @@ function getCircularElement(arr, index) {
     return arr[(index % arr.length + arr.length) % arr.length];
 }
 
-const playMusic = (track, pause = false) => {
+const playMusic = (track, pause = false) => { //pause=false because whenever we open the website then 1st song in library always in playBar
     currSong.src = `https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${currFolder}/` + track + `.mp3`;
     if (!pause) {
         currSong.play();
@@ -90,12 +89,12 @@ const playMusic = (track, pause = false) => {
 }
 
 async function updateSongs(folder) {
-    songs = await getSongs(folder);
+    songs = await getSongs(folder);// get list of all the songs
     playMusic(songs[0], true); // First song always in playBar
     let content = document.querySelector(".scroll");
     content.innerHTML = "";
-
-    songs.forEach(song => {
+                    //show all images in scroll section
+    songs.forEach(element in songs){
         content.innerHTML += `<div class="card">
                                 <div class="flex jc">
                                     <span>
@@ -107,7 +106,7 @@ async function updateSongs(folder) {
                                         </svg>
                                     </span>
                                     <div class="content flex column jc">
-                                        <p>${song}</p>
+                                        <p>${songs[element]}</p>
                                         <p>Vikhyat</p>
                                     </div>
                                 </div>
@@ -119,6 +118,7 @@ async function updateSongs(folder) {
 }
 
 function playPreviousSong() {
+    console.log(currSong);
     const src = currSong.src; 
     const songName = src.split(`${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
     const prevSong = getCircularElement(songs, songs.indexOf(songName) - 1); 
