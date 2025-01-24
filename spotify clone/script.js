@@ -1,5 +1,6 @@
 let currSong = new Audio();
 let currFolder = "og playlist";
+let songs = [];
 
 async function getFolders() {
     try {
@@ -49,7 +50,7 @@ async function getSongs(folder) {
         }
         
         let data = await response.json();
-        let songs = [];
+        songs = [];
 
         data.forEach(item => {
             if (item.name.endsWith(".mp3")) {
@@ -204,7 +205,7 @@ async function main() {
     })
 
     // Event listener for volume range and to mute
-    volRange.addEventListener("change", (e) => {
+    document.getElementById("volRange").addEventListener("change", (e) => {
         if (currSong.muted) {
             currSong.muted = false;
              document.querySelector(".timevol").querySelector(".vol").firstElementChild.src="material/vol.svg"
