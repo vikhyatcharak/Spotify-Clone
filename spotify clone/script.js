@@ -94,7 +94,7 @@ async function updateSongs(folder) {
     let content = document.querySelector(".scroll");
     content.innerHTML = "";
                     //show all images in scroll section
-    songs.forEach(element in songs){
+    for(element in songs){
         content.innerHTML += `<div class="card">
                                 <div class="flex jc">
                                     <span>
