@@ -95,7 +95,7 @@ async function updateSongs(folder) {
     let content = document.querySelector(".scroll");
     content.innerHTML = "";
                     //show all images in scroll section
-    for(element in songs){
+    for (let element of songs) {
         content.innerHTML += `<div class="card">
                                 <div class="flex jc">
                                     <span>
@@ -107,7 +107,7 @@ async function updateSongs(folder) {
                                         </svg>
                                     </span>
                                     <div class="content flex column jc">
-                                        <p>${songs[element]}</p>
+                                        <p>${element}</p>
                                         <p>Vikhyat</p>
                                     </div>
                                 </div>
@@ -115,6 +115,7 @@ async function updateSongs(folder) {
                                     <img src="material/play.svg" alt="playS" style="filter: invert(0); opacity: 1;">
                                 </div>
                             </div>`;
+    }
 }
     
 function playPreviousSong() {
