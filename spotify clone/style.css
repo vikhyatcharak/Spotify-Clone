@@ -367,7 +367,7 @@ img {
     gap: 5px;
     flex-wrap: wrap;
     overflow-y: scroll;
-    max-height: 60vh;
+    height: 60vh;
 }
 .section .card{
     width: 200px;
