@@ -114,7 +114,7 @@ async function updateSongs(folder) {
                                     <img src="material/play.svg" alt="playS" style="filter: invert(0); opacity: 1;">
                                 </div>
                             </div>`;
-    }
+}
     
 function playPreviousSong() {
     console.log(currSong)
