@@ -3,15 +3,10 @@ let currFolder = "og playlist";
 let songs = [];
 
 async function getFolders() {
-    try {
-        let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/`);
+    let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/`);
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch: ${response.statusText} (Status code: ${response.status})`);
-        }
-
-        let data = await response.json();
-        let folderSection = document.querySelector(".container .right .section .cardContainer");
+    let data = await response.json();
+    let folderSection = document.querySelector(".container .right .section .cardContainer");
 
         for (let folderData of data) {
             if (folderData.type === 'dir') {
@@ -38,19 +33,13 @@ async function getFolders() {
                 `;
             }
         }
-    } catch (error) {
-        console.error("Error fetching folders:", error);
-    }
 }
 
 
 async function getSongs(folder) {
-    try {
         let response = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folder}`);
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch songs: ${response.statusText} (Status code: ${response.status})`);
-        }
+        
 
         let data = await response.json();
         songs = [];
@@ -59,14 +48,10 @@ async function getSongs(folder) {
             if (item.name.endsWith(".mp3")) {
                 songs.push(item.name.split(".mp3")[0]); // Push song name without .mp3
             }
-        });
+        })
 
         return songs;
-    } catch (error) {
-        console.error("Error fetching songs:", error);
-        return [];
-    }
-}
+ }
 
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
