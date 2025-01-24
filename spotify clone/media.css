@@ -9,8 +9,8 @@
         height: 96vh;
     }
     .right{
-        width: 100vw;
-        height: 96vh;
+        width: fit-content;
+        max-height: fit-content;
     }
     .playBar{
         height: 64px;
@@ -77,8 +77,13 @@
         cursor: pointer;
         opacity: 1;
     }
+    .section{
+        max-height: fit-content;
+        max-width: fit-content;
+    }
     .section .cardContainer{
-        max-height: 40vh;
+        max-height: 53vh;
+        max-width: fit-content;
     }
 }
 
@@ -164,6 +169,7 @@
         align-items: center;
         flex-direction: column;
     }
+    
 }
 
 
