@@ -1,5 +1,6 @@
 let currSong = new Audio();
 let currFolder = "og playlist";
+let songs = [];
 
 async function getFolders() {
     try {
@@ -49,15 +50,15 @@ async function getSongs(folder) {
         }
         
         let data = await response.json();
-        let songs = [];
+        let songList = [];
 
         data.forEach(item => {
             if (item.name.endsWith(".mp3")) {
-                songs.push(item.name.split(".mp3")[0]); // Push song name without .mp3
+                songList.push(item.name.split(".mp3")[0]); // Push song name without .mp3
             }
         });
 
-        return songs;
+        return songList;
     } catch (error) {
         console.error("Error fetching songs:", error);
         return [];
@@ -80,16 +81,16 @@ function getCircularElement(arr, index) {
 
 const playMusic = (track, pause = false) => {
     currSong.src = `https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${currFolder}/` + track + `.mp3`;
-    if (pause == false) {
+    if (!pause) {
         currSong.play();
-        pl.src = "material/pause.svg";
+        document.getElementById("pl").src = "material/pause.svg";
     }
     document.querySelector(".above").querySelector(".songInfo").innerHTML = track;
     document.querySelector(".above").querySelector(".songTime").innerHTML = `00:00/${formatTime(currSong.duration || 0)}`;
 }
 
 async function updateSongs(folder) {
-    let songs = await getSongs(folder);
+    songs = await getSongs(folder);
     playMusic(songs[0], true); // First song always in playBar
     let content = document.querySelector(".scroll");
     content.innerHTML = "";
@@ -149,10 +150,10 @@ async function main() {
     document.getElementById("pl").addEventListener("click", () => {
         if (currSong.paused) {
             currSong.play();
-            pl.src = "material/pause.svg";
+            document.getElementById("pl").src = "material/pause.svg";
         } else {
             currSong.pause();
-            pl.src = "material/play.svg";
+            document.getElementById("pl").src = "material/play.svg";
         }
     });
 
@@ -160,9 +161,9 @@ async function main() {
     currSong.addEventListener("timeupdate", () => {
         document.querySelector(".above").querySelector(".songTime").innerHTML = `${formatTime(currSong.currentTime)}/${formatTime(currSong.duration || 0)}`;
 
-        document.querySelector(".circle").style.left = currSong.currentTime / currSong.duration * 100 + "%";
+        document.querySelector(".circle").style.left = (currSong.currentTime / currSong.duration * 100) + "%";
 
-        if (formatTime(currSong.currentTime) == formatTime(currSong.duration)) {
+        if (formatTime(currSong.currentTime) === formatTime(currSong.duration)) {
             playNextSong();
         }
     });
@@ -181,7 +182,7 @@ async function main() {
         const currentLeftPx = window.getComputedStyle(leftElement).left;
         const currentLeft = Math.round((parseFloat(currentLeftPx) / parentWidth) * 100);
 
-        if (currentLeft == -110) {
+        if (currentLeft === -110) {
             leftElement.style.left = "0%";
             e.target.src = "material/cross.svg";
         } else {
@@ -191,30 +192,30 @@ async function main() {
     });
 
     // Event listeners for previous and next buttons
-    p.addEventListener("click", () => {
+    document.querySelector(".previous-button").addEventListener("click", () => {
         playPreviousSong();
     });
 
-    n.addEventListener("click", () => {
+    document.querySelector(".next-button").addEventListener("click", () => {
         playNextSong();
     });
 
     // Event listener for volume range and mute
-    volRange.addEventListener("change", (e) => {
+    document.querySelector(".volume-range").addEventListener("change", (e) => {
         if (currSong.muted) {
             currSong.muted = false;
-            muteButton.src = "material/volume.svg";
+            document.querySelector(".mute-button").src = "material/volume.svg";
         }
         currSong.volume = e.target.value / 100;
     });
 
-    muteButton.addEventListener("click", () => {
+    document.querySelector(".mute-button").addEventListener("click", () => {
         if (currSong.muted) {
             currSong.muted = false;
-            muteButton.src = "material/volume.svg";
+            document.querySelector(".mute-button").src = "material/volume.svg";
         } else {
             currSong.muted = true;
-            muteButton.src = "material/mute.svg";
+            document.querySelector(".mute-button").src = "material/mute.svg";
         }
     });
 
