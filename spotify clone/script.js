@@ -124,14 +124,14 @@ async function updateSongs(folder) {
     
 function playPreviousSong() {
     const src = currSong.src; 
-    const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
+    const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(`.mp3`)[0]; // Extract the song name from the URL
     const prevSong = getCircularElement(songs, songs.indexOf(songName) - 1); 
     playMusic(prevSong);
 }
 
 function playNextSong() {
     const src = currSong.src; 
-    const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(".mp3")[0]; // Extract the song name from the URL
+    const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(`.mp3`)[0]; // Extract the song name from the URL
     const nextSong = getCircularElement(songs, songs.indexOf(songName) + 1); 
     playMusic(nextSong);
 }
