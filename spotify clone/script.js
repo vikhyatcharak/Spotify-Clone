@@ -16,13 +16,13 @@ async function getFolders() {
         data.forEach(async (folderData) => {
             if (folderData.type === 'dir') {
                 let folderName = folderData.name;
-                let b = await fetch(`https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/info.json`);
+                let getInfo = await fetch(`https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/info.json`);
                 
-                if (!b.ok) {
+                if (!getInfo.ok) {
                     throw new Error(`Failed to fetch info.json for folder ${folderName}`);
                 }
                 
-                let r = await b.json();
+                let r = await getInfo.json();
                 
                 folderSection.innerHTML += `<div class="card">
                                                 <button class="green-button">
@@ -107,7 +107,7 @@ async function updateSongs(folder) {
                                         </svg>
                                     </span>
                                     <div class="content flex column jc">
-                                        <p>${element}</p>
+                                        <p>${songs[element]}</p>
                                         <p>Vikhyat</p>
                                     </div>
                                 </div>
