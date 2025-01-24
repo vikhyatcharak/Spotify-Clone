@@ -23,7 +23,7 @@ async function getFolders() {
                 }
 
                 let r = await getInfo.json();
-                let coverImage = await fetch(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${folderName}/cover.jpg`);
+                let coverImageUrl = `https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${folderName}/cover.jpg`;
                 folderSection.innerHTML += `
                     <div class="card">
                         <button class="green-button">
@@ -31,7 +31,7 @@ async function getFolders() {
                                 <path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <img src="${coverImage}" alt="${folderName}" style="filter: invert(0);">
+                        <img src="${coverImageUrl}" alt="${folderName}" style="filter: invert(0);">
                         <h2>${r.title}</h2>
                         <p>${r.description}</p>
                     </div>
@@ -42,6 +42,7 @@ async function getFolders() {
         console.error("Error fetching folders:", error);
     }
 }
+
 
 async function getSongs(folder) {
     try {
@@ -82,7 +83,7 @@ function getCircularElement(arr, index) {
 }
 
 const playMusic = (track, pause = false) => { 
-    currSong.src = `https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/` + track + `.mp3`;
+    currSong.src = `https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${currFolder}/${track}.mp3`;
     if (!pause) {
         currSong.play();
         document.getElementById("pl").src = "material/pause.svg";
@@ -124,14 +125,14 @@ async function updateSongs(folder) {
     
 function playPreviousSong() {
     const src = currSong.src; 
-    const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(`.mp3`)[0]; // Extract the song name from the URL
+    const songName = src.split(`https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${currFolder}/`)[1].split(`.mp3`)[0]; // Extract the song name from the URL
     const prevSong = getCircularElement(songs, songs.indexOf(songName) - 1); 
     playMusic(prevSong);
 }
 
 function playNextSong() {
     const src = currSong.src; 
-    const songName = src.split(`https://api.github.com/repos/vikhyatcharak/Spotify-Clone/contents/spotify%20clone/songs/${currFolder}/`)[1].split(`.mp3`)[0]; // Extract the song name from the URL
+    const songName = src.split(`https://raw.githubusercontent.com/vikhyatcharak/Spotify-Clone/main/spotify%20clone/songs/${currFolder}/`)[1].split(`.mp3`)[0]; // Extract the song name from the URL
     const nextSong = getCircularElement(songs, songs.indexOf(songName) + 1); 
     playMusic(nextSong);
 }
