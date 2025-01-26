@@ -2,9 +2,10 @@ console.log("let's write js")
 
 let currSong=new Audio()
 let currFolder="og playlist";
-let PathUrl=""; //write the url of the website
+let baseUrl="http://127.0.0.1:3000"
+
 async function getFolders() {
-    let a= await fetch(`${PathUrl}/songs/`)
+    let a= await fetch(`${baseUrl}/songs/`)
     let response= await a.text()
     let div=document.createElement("div")
     div.innerHTML=response
@@ -15,7 +16,7 @@ async function getFolders() {
         const element = as[index];
         if(element.href.includes("/songs/")){
             let folder=element.innerHTML.split("/")[0]
-            let b= await fetch(`${PathUrl}/songs/${folder}/info.json`)
+            let b= await fetch(`${baseUrl}/songs/${folder}/info.json`)
             let r= await b.json()
             let folderSection=document.querySelector(".container").querySelector(".right").querySelector(".section").querySelector(".cardContainer")
             folderSection.innerHTML= folderSection.innerHTML+`<div class="card">
@@ -24,7 +25,7 @@ async function getFolders() {
                                                                             <path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
                                                                         </svg>
                                                                     </button>
-                                                                    <img src="${PathUrl}/songs/${folder}/cover.jpg" alt="${folder}" style="filter: invert(0);">
+                                                                    <img src="${baseUrl}/songs/${folder}/cover.jpg" alt="${folder}" style="filter: invert(0);">
                                                                     <h2>${r.title}</h2>
                                                                     <p>${r.description}</p>
                                                                 </div>`
@@ -34,7 +35,7 @@ async function getFolders() {
 
 async function getSongs(folder){
     currFolder=folder
-    let a=await fetch(`${PathUrl}/songs/${currFolder}`)//fetching songs from site only
+    let a=await fetch(`${baseUrl}/songs/${currFolder}`)//fetching songs from site only
     let response=await a.text();//awaiting to get all the text in the songs folder
 
     let div=document.createElement("div")
@@ -65,7 +66,7 @@ function getCircularElement(arr, index) {
 }
 
 const playMusic=(track,pause=false)=>{//pause=false because whenever we open the website then 1st song in library always in playBar
-    currSong.src=`${PathUrl}/songs/${currFolder}/`+track+`.mp3`
+    currSong.src=`${baseUrl}/songs/${currFolder}/`+track+`.mp3`
     if(pause==false){
         currSong.play()
         pl.src="material/pause.svg"
